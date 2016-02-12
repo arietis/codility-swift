@@ -46,5 +46,4 @@ public func solution(inout S : String, inout _ P : [Int], inout _ Q : [Int]) -> 
     }
 
     return result
-
 }
