@@ -1,5 +1,17 @@
 public func solution(inout A : [Point2D]) -> Int {
     // write your code in Swift 2.2 (Linux)
+    func isClockwise(a: Point2D, b: Point2D, c: Point2D) -> Int {
+        let result = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x)
+    
+        if result > 0 {
+            return 1
+        } else if result < 0 {
+            return -1
+        } else {
+            return 0
+        }
+    }
+
     var lowestY = A[0].y
 
     var lowestYIndex: [Int] = []
@@ -10,6 +22,8 @@ public func solution(inout A : [Point2D]) -> Int {
             lowestYIndex = [i]
         } else if A[i].y == lowestY {
             lowestYIndex.append(i)
+        } else {
+            continue
         }
     }
 
@@ -29,18 +43,6 @@ public func solution(inout A : [Point2D]) -> Int {
 
     let rotatedA = Array(A[startPoint..<A.count] + A[0..<startPoint])
 
-    func isClockwise(a: Point2D, b: Point2D, c: Point2D) -> Int {
-        let result = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x)
-    
-        if result > 0 {
-            return 1
-        } else if result < 0 {
-            return -1
-        } else {
-            return 0
-        }
-    }
-
     let direction = isClockwise(rotatedA[rotatedA.count - 1], b: rotatedA[0], c: rotatedA[1])
 
     let extendedA = rotatedA + Array(rotatedA[0..<2])
@@ -49,9 +51,9 @@ public func solution(inout A : [Point2D]) -> Int {
         let temp = isClockwise(extendedA[i], b: extendedA[i + 1], c: extendedA[i + 2])
     
         if temp * direction < 0 {
-            return (i + i + startPoint) % A.count
+            return (i + 1 + startPoint) % A.count
         }
     }
-
+    
     return -1
 }
